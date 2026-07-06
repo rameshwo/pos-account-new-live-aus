@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "217173588974",
+    "project_id": "pos-account-32413",
+    "storage_bucket": "pos-account-32413.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217173588974:android:048ddeb39d5f1e5dfd2cff",
+        "android_client_info": {
+          "package_name": "com.volgai.posOrder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217173588974-murkd0nj92puq7alfo7bv45elfc78l8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHYogcE_eePnTJHlaM__TvipucvYfW3tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217173588974-murkd0nj92puq7alfo7bv45elfc78l8p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217173588974-ofltran6lnk952lj61h3bmja2k4f79ug.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.volgai.posAccount"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217173588974:android:db62088c4d7bf15dfd2cff",
+        "android_client_info": {
+          "package_name": "com.volgai.pos_account"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217173588974-murkd0nj92puq7alfo7bv45elfc78l8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHYogcE_eePnTJHlaM__TvipucvYfW3tw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217173588974-murkd0nj92puq7alfo7bv45elfc78l8p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "217173588974-ofltran6lnk952lj61h3bmja2k4f79ug.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.volgai.posAccount"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
