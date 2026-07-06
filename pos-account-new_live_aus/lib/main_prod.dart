@@ -8,16 +8,17 @@ import 'services/crash_analytics.dart';
 
 /// [main_prod] flutter run -t lib/main_prod.dart
 
-void main() async {
+Future<void> main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     PaintingBinding.instance.imageCache.maximumSize =
         100; // Set maximum cache size
     PaintingBinding.instance.imageCache.maximumSizeBytes =
         100 << 20; // Set maximum cache size in bytes
+
     AppEnviro.setupEnv(Enviroment.PROD);
     await NotificationApi.init();
-    CrashAnalytics.init();
+    await CrashAnalytics.init();
 
     runApp(const InitApp());
   }, CrashAnalytics.onError);

@@ -13,7 +13,7 @@ abstract class AppEnviro {
   /// eftpos url
   static late String eftposPay;
 
-  static Future<void> setupEnv(Enviroment env) async {
+  static void setupEnv(Enviroment env) {
     _enviroment = env;
     switch (env) {
       case Enviroment.UAT:
