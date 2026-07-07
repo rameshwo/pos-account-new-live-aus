@@ -11,12 +11,11 @@ import 'services/crash_analytics.dart';
 Future<void> main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
-    PaintingBinding.instance.imageCache.maximumSize =
-        100; // Set maximum cache size
-    PaintingBinding.instance.imageCache.maximumSizeBytes =
-        100 << 20; // Set maximum cache size in bytes
+    // Configure image cache: max 500 images, 500 MB total size
+    PaintingBinding.instance.imageCache.maximumSize = 500;
+    PaintingBinding.instance.imageCache.maximumSizeBytes = 500 << 20;
 
-    AppEnviro.setupEnv(Enviroment.PROD);
+    AppEnvironment.setupEnv(Environment.PROD);
     await NotificationApi.init();
     await CrashAnalytics.init();
 

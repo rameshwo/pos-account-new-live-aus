@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:pos_account/ln.dart';
 import 'phone_service.dart';
@@ -32,21 +33,16 @@ class UDPListen {
             String message = String.fromCharCodes(packet.data);
             serviceCallbacks?.display(message);
           }
-          //  else {
-          //   showToast("packet == null",
-          //       duration: Duration(seconds: 10), backgroundColor: Colors.red);
-          // }
         }
       });
     } catch (e) {
-      // print("Exception on UDP calls : $e");
-      // showToast("Something went wrong with listening incoming calls.",
-      //     backgroundColor: Colors.red);
+      log("Exception on UDP startListening: $e", stackTrace: s);
     }
   }
 
   void stopListening() {
     _socket?.close();
+    _socket = null;
   }
 }
 
