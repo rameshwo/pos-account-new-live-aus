@@ -220,13 +220,7 @@ class MergeConfirmDialog extends StatelessWidget {
                                   vertical: size.getH(12))),
                           onPressed: _allowYes
                               ? () {
-                                  final _newModel = <TableIdName>[];
-                                  for (final b in tableList) {
-                                    if (b.selected) {
-                                      _newModel.add(b);
-                                    }
-                                  }
-
+                                  final _newModel = tableList.where((b) => b.selected).toList();
                                   Navigator.pop(context, _newModel);
                                 }
                               : () {},

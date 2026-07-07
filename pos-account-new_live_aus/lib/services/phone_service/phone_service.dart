@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_account/ln.dart';
+import 'package:pos_account/main.dart';
 import 'package:pos_account/model/home/menu/payment/cus_loyal_res.dart';
 import 'package:pos_account/repository/handler.dart';
 import 'package:pos_account/services/phone_service/local_server.dart';
@@ -91,6 +92,7 @@ class PhoneService {
     final String? line,
   }) async {
     if (CUS_CTX == null || phoneNumber == null) return;
+    final context = CUS_CTX!;
 
     // if (isPhoneEventOn) return;
 
@@ -121,7 +123,7 @@ class PhoneService {
     }
 
     await showDialog(
-        context: CUS_CTX!,
+        context: context,
         barrierColor: Colors.black12,
         builder: (_) {
           return StatefulBuilder(builder: (context, setS) {

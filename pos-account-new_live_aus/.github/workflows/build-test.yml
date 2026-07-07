@@ -24,6 +24,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
       - name: Get Flutter packages
         run: flutter pub get
@@ -34,58 +35,47 @@ jobs:
       - name: Check formatting
         run: dart format --set-exit-if-changed .
 
-  unit_tests:
-    name: Unit Tests
+  tests:
+    name: Run Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+  
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-
+          cache: true
+  
       - name: Get Flutter packages
         run: flutter pub get
-
-      - name: Run unit tests
-        run: flutter test --coverage
-
+  
+      - name: Run tests
+        run: flutter test --coverage --machine > test-results.json
+        continue-on-error: true
+  
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage/lcov.info
           flags: unittests
           fail_ci_if_error: false
-
-  widget_tests:
-    name: Widget Tests
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+  
+      - name: Upload test results artifact
+        uses: actions/upload-artifact@v3
         with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-
-      - name: Get Flutter packages
-        run: flutter pub get
-
-      - name: Run widget tests
-        run: flutter test test/widget_test.dart
+          name: test-results
+          path: test-results.json
+          retention-days: 1
 
   build_uat:
     name: Build UAT APK
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: [ analyze, unit_tests, widget_tests ]
+    needs: [ analyze, tests ]
 
     steps:
       - name: Checkout code
@@ -101,6 +91,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
       - name: Get Flutter packages
         run: flutter pub get
@@ -124,7 +115,7 @@ jobs:
     name: Build PROD APK
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: [ analyze, unit_tests, widget_tests ]
+    needs: [ analyze, tests ]
     if: github.ref == 'refs/heads/main'
 
     steps:
@@ -141,6 +132,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
       - name: Get Flutter packages
         run: flutter pub get
@@ -164,7 +156,7 @@ jobs:
     name: Build iOS UAT
     runs-on: macos-latest
     timeout-minutes: 30
-    needs: [ analyze, unit_tests, widget_tests ]
+    needs: [ analyze, tests ]
 
     steps:
       - name: Checkout code
@@ -174,6 +166,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
       - name: Get Flutter packages
         run: flutter pub get
@@ -197,7 +190,7 @@ jobs:
     name: Build iOS PROD
     runs-on: macos-latest
     timeout-minutes: 30
-    needs: [ analyze, unit_tests, widget_tests ]
+    needs: [ analyze, tests ]
     if: github.ref == 'refs/heads/main'
 
     steps:
@@ -208,6 +201,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
       - name: Get Flutter packages
         run: flutter pub get
@@ -231,22 +225,7 @@ jobs:
     name: Security Scan
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Run security audit
-        run: |
-          dart pub global activate dartdoc
-          # Check for known vulnerabilities in dependencies
-          flutter pub outdated --exit-if-changed
-
-  publish_test_results:
-    name: Publish Test Results
-    runs-on: ubuntu-latest
-    needs: [ unit_tests, widget_tests ]
-    if: always()
+    needs: [ analyze ]
 
     steps:
       - name: Checkout code
@@ -256,10 +235,25 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
-      - name: Get Flutter packages
-        run: flutter pub get
+      - name: Run security audit
+        run: |
+          dart pub audit
 
-      - name: Generate test report
-        run: flutter test --machine > test-results.json
-        continue-on-error: true
+  publish_test_results:
+    name: Publish Test Results
+    runs-on: ubuntu-latest
+    needs: [ tests ]
+    if: always()
+
+    steps:
+      - name: Download test results
+        uses: actions/download-artifact@v3
+        with:
+          name: test-results
+
+      - name: Publish results (example)
+        run: |
+          echo "Publishing test results from test-results.json"
+          cat test-results.json

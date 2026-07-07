@@ -35,7 +35,7 @@ class UDPListen {
           }
         }
       });
-    } catch (e) {
+    } catch (e, s) {
       log("Exception on UDP startListening: $e", stackTrace: s);
     }
   }
@@ -86,40 +86,28 @@ class MyServiceCallbacks implements ServiceCallbacks {
   }
 
   CallerIdData _getCallInfo(String myData) {
-    RegExp myPattern = RegExp(
-        ".*(\\d\\d) ([IO]) ([ES]) (\\d{4}) ([GB]) (.)(\\d) (\\d\\d/\\d\\d \\d\\d:\\d\\d [AP]M) (.{8,15})(.*)");
-    Match? matcher = myPattern.firstMatch(myData);
+    final myPattern = RegExp(
+        r'.*(?<line>\d{2}) (?<type>[IO]) (?<indicator>[ES]) (?<duration>\d{4}) (?<checksum>[GB]) (?<ringCount>.)(\d) (?<dateTime>\d{2}/\d{2} \d{2}:\d{2} [AP]M) (?<number>.{8,15})(?<name>.*)');
+    final Match? matcher = myPattern.firstMatch(myData);
 
     final callData = CallerIdData();
 
     if (matcher != null) {
-      callData.line = matcher.group(1);
+      callData.line = matcher.namedGroup('line');
 
-      // String myType = matcher.group(2) ?? ''; // I => known call | O => Unknown call
-
-      String myIndicator = matcher.group(3) ?? '';
+      // final String myType = matcher.namedGroup('type') ?? ''; // I => known call | O => Unknown call
+      final String myIndicator = matcher.namedGroup('indicator') ?? '';
       if (myIndicator == "S") {
         callData.isCallStart = true;
       } else if (myIndicator == "E") {
         callData.isCallStart = false;
       }
 
-      // Unused in this app but available for other custom apps
-      callData.duration = matcher.group(4);
-      // String myCheckSum = matcher.group(5)!;
-      callData.ringCount = matcher.group(6);
-
-      //------------------------------------------------------
-
-      callData.dateTime = matcher.group(8);
-
-      callData.number = matcher.group(9);
-
-      callData.name = matcher.group(10);
-
-      // Clipboard.setData(ClipboardData(
-      //     text:
-      //         "Indicator :$myIndicator, myDuration :$myDuration, myCheckSum :$myCheckSum, myNumber :$myNumber, myDateTime :$myDateTime, myRings :$myRings"));
+      callData.duration = matcher.namedGroup('duration');
+      callData.ringCount = matcher.namedGroup('ringCount');
+      callData.dateTime = matcher.namedGroup('dateTime');
+      callData.number = matcher.namedGroup('number');
+      callData.name = matcher.namedGroup('name');
     }
 
     return callData;

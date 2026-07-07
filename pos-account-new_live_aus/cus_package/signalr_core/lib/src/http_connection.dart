@@ -216,7 +216,9 @@ class HttpConnection implements Connection {
     _stopException = exception;
 
     try {
-      await _startInternalFuture;
+      if (_startInternalFuture != null && !_startInternalFuture!.isComplete) {
+        await _startInternalFuture;
+      }
     } catch (e) {
       // This exception is returned to the user as a rejected Future from the start method.
     }

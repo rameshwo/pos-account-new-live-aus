@@ -5,9 +5,26 @@
 
 static NSString *const CHANNEL_NAME = @"open_file";
 
+// A helper function to get the primary window, handling modern scene-based apps.
+static UIWindow *GetPrimaryKeyWindow() {
+    if (@available(iOS 13, *)) {
+        for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
+            if (scene.activationState == UISceneActivationStateForegroundActive) {
+                for (UIWindow *window in scene.windows) {
+                    if (window.isKeyWindow) {
+                        return window;
+                    }
+                }
+            }
+        }
+    }
+    // Fallback for older iOS versions or if no active scene is found.
+    return [UIApplication sharedApplication].keyWindow;
+}
+
 // A helper function to find the top-most view controller.
 static UIViewController *GetTopViewController() {
-    UIViewController *topVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UIViewController *topVC = GetPrimaryKeyWindow().rootViewController;
     while (topVC.presentedViewController) {
         topVC = topVC.presentedViewController;
     }

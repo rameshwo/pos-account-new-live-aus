@@ -43,143 +43,6 @@ class ProductItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (itemViewList.isNotEmpty) ...[
-          //   GridView.builder(
-          //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //       mainAxisExtent:
-          //           size.getH(Responsive.isDesktop(context) ? 220 : 220),
-          //       crossAxisSpacing: size.getW(0),
-          //       mainAxisSpacing: size.getH(0),
-          //       crossAxisCount: size.isProt ? 3 : 4,
-          //     ),
-          //     shrinkWrap: true,
-          //     physics: NeverScrollableScrollPhysics(),
-          //     itemCount: itemViewList.length,
-          //     itemBuilder: (context, i2) {
-          //       final _prod = itemViewList[i2];
-
-          //       final _pV = _prod.productVariations?.isNotEmpty ?? false
-          //           ? _prod.productVariations!.firstWhere(
-          //               (e) => e.isDefault != null && e.isDefault!,
-          //               orElse: () => _prod.productVariations!.first,
-          //             )
-          //           : null;
-
-          //       final _stock =
-          //           _pV?.stockCount != null && _pV!.stockCount!.isNotEmpty
-          //               ? double.tryParse(_pV.stockCount ?? '')
-          //               : null;
-
-          //       final _totalQuantity = placeOrderPro.orderList
-          //               .any((b) => b.productId == _prod.id)
-          //           ? placeOrderPro.orderList
-          //               .where((b) => b.productId == _prod.id)
-          //               .fold<double>(0, (x, y) => x + (y.quantity ?? 0))
-          //           : 0;
-          //       final bool _outOfStock = !GlobalCVP.isHospitality &&
-          //           _stock != null &&
-          //           _stock <= _totalQuantity;
-
-          //       // final _promDiscount =
-          //       //     Utils.getPromDiscount(_pV.discountedPromotions);
-          //       bool _isMultiBatch = false;
-
-          //       if (placeOrderPro
-          //               .initAddSec?.storeStockDeductInformation?.isBatch ??
-          //           false) {
-          //         if ((_prod.productVariations?.isNotEmpty ?? false) &&
-          //             (_prod.productVariations?.first
-          //                     .productVariationBatchStocks?.isNotEmpty ??
-          //                 false)) {
-          //           _isMultiBatch = _prod.productVariations!.first
-          //                   .productVariationBatchStocks!.length >
-          //               1;
-          //         }
-          //       }
-
-          //       // if (_prod.promoModel != null) {
-          //       //   if (_prod.promoModel?.discountAmount != null) {
-          //       //     final _disPer = PromoUtils.getPromoDisPercent(
-          //       //       disValue: _prod.promoModel?.discountAmount,
-          //       //       price: _pV?.actualPrice,
-          //       //     );
-          //       //     _prod.promoModel?.discountPercent = _disPer;
-          //       //   } else if (_prod.promoModel?.discountPercent != null) {
-          //       //     final _disAmount = PromoUtils.getPromoDisAmount(
-          //       //       disPercent: _prod.promoModel?.discountPercent,
-          //       //       price: _pV?.actualPrice,
-          //       //     );
-          //       //     _prod.promoModel?.discountAmount = _disAmount;
-          //       //   }
-          //       // }
-
-          //       // final _varCount = _prod.productVariations?.length ?? 0;
-
-          //       // print(
-          //       //     "${_prod.name} | actualPrice ${_pV?.actualPrice} | discount: ${_pV?.discount} | discountPercentage : ${_pV?.discountPercentage} | discountedPrice ${_pV?.discountedPrice}");
-
-          //       return Padding(
-          //         padding: EdgeInsets.only(
-          //             right: size.getW(0), bottom: size.getH(4)),
-          //         child: SizedBox(
-          //           height: size.getH(300),
-          //           width: size.getW(192),
-          //           child: ItemTile(
-          //             onTap: onTap != null ? () => onTap!(i2) : null,
-          //             // message: _varCount == 0
-          //             //     ? null
-          //             //     : "$_varCount option${_varCount == 1 ? '' : 's'} available",
-          //             // hideAddBtn:
-          //             //     Utils.prodType(_prod.productType) != ProductType.Item,
-          //             imgPath: _prod.imageUrl,
-          //             name: _prod.name ?? '',
-          //             // vName: (_pV.name == null || _pV.name!.trim().isEmpty)
-          //             //     ? ""
-          //             //     : " (${_pV.name})",
-          //             outOfStockMessage:
-          //                 _outOfStock ? _pV?.outOfStockMessage : null,
-          //             price: OrderUtils.priceType(_prod.productPriceType) ==
-          //                     HalfPriceType.Fixed
-          //                 ? _pV?.actualPrice
-          //                 : null,
-          //             curSym: curSym,
-          //             discountedPrice:
-          //                 // _prod.promoModel != null ? _prod.promoModel?.discountAmount :
-          //                 _pV?.discountedPrice,
-          //             disPercent:
-          //                 // _prod.promoModel != null ? _prod.promoModel?.discountPercent  :
-          //                 _pV?.discountPercentage,
-          //             // promDiscount: _promDiscount,
-          //             size: size,
-          //             // onAdd: onAdd != null
-          //             //     ? () => onAdd!(i2,
-          //             //         price: (_promDiscount?.isOfferStart ?? false)
-          //             //             ? _promDiscount?.discountedPrice
-          //             //             : (_pV.discountedPrice?.inDouble != null &&
-          //             //                     (_pV.discountedPrice.inDouble > 0 ||
-          //             //                         _pV.discountPercentage.inDouble >=
-          //             //                             99))
-          //             //                 ? _pV.discountedPrice.toString()
-          //             //                 : _pV.actualPrice.toString())
-          //             //     : null,
-          //             addText: ((_prod.variationCount?.inDouble != null &&
-          //                         _prod.variationCount!.inDouble > 1) ||
-          //                     GlobalCVP.isServiceStore)
-          //                 ? LN.select
-          //                 : _isMultiBatch
-          //                     ? LN.select
-          //                     : LN.add,
-          //             refresh: () {
-          //               placeOrderPro.notify;
-          //             },
-          //             hasPromo:
-          //                 _prod.promoModel?.discountPercent?.isNotEmpty ??
-          //                     false,
-          //           ),
-          //         ),
-          //       );
-          //     },
-          //   )
-          // else
           _datalist(size, _comboOnly, crossAxis: 3, isItem: false),
           _datalist(size, _itemsOnly)
         ] else if (!placeOrderPro.loading)
@@ -262,26 +125,7 @@ class ProductItem extends StatelessWidget {
             }
           }
 
-          // if (_prod.promoModel != null) {
-          //   if (_prod.promoModel?.discountAmount != null) {
-          //     final _disPer = PromoUtils.getPromoDisPercent(
-          //       disValue: _prod.promoModel?.discountAmount,
-          //       price: _pV?.actualPrice,
-          //     );
-          //     _prod.promoModel?.discountPercent = _disPer;
-          //   } else if (_prod.promoModel?.discountPercent != null) {
-          //     final _disAmount = PromoUtils.getPromoDisAmount(
-          //       disPercent: _prod.promoModel?.discountPercent,
-          //       price: _pV?.actualPrice,
-          //     );
-          //     _prod.promoModel?.discountAmount = _disAmount;
-          //   }
-          // }
-
-          // final _varCount = _prod.productVariations?.length ?? 0;
-
-          // print(
-          //     "${_prod.name} | actualPrice ${_pV?.actualPrice} | discount: ${_pV?.discount} | discountPercentage : ${_pV?.discountPercentage} | discountedPrice ${_pV?.discountedPrice}");
+          final bool hasMultipleVariations = (_prod.variationCount?.inDouble ?? 0) > 1;
 
           return SizedBox(
             height: size.getH(isItem ? 220 : 250),
@@ -290,9 +134,6 @@ class ProductItem extends StatelessWidget {
               // hideAddBtn: hideAddBtn,
               imgPath: _prod.imageUrl,
               name: _prod.name ?? '',
-              // vName: (_pV.name == null || _pV.name!.trim().isEmpty)
-              //     ? ""
-              //     : " (${_pV.name})",
               outOfStockMessage: _outOfStock ? _pV?.outOfStockMessage : null,
               price: OrderUtils.productPriceType(_prod.productPriceType) ==
                       ProductPriceType.FixedPrice
@@ -302,40 +143,12 @@ class ProductItem extends StatelessWidget {
               discountedPrice: _pV?.discountedPrice,
               disPercent: _maxDiscountPercentInString,
               // _pV?.discountPercentage,
-              // promDiscount: _promDiscount,
-
-              //  () {
-              //   double _price = 0.0;
-              //   if (_pV.discountedPrice?.inDouble != null)
-              //     _price = _pV.discountedPrice!.inDouble;
-              //   else
-              //     _price = _pV.actualPrice.inDouble;
-
-              //   return (curSym ?? '') +
-              //       "${_price.roundToNString()}${hideAddBtn ? '' : _vName}";
-              // },
               size: size,
-              // onAdd: onAdd != null
-              //     ? () => onAdd!(i2,
-              //         price: (_promDiscount?.isOfferStart ?? false)
-              //             ? _promDiscount?.discountedPrice
-              //             : (_pV.discountedPrice?.inDouble !=
-              //                         null &&
-              //                     (_pV.discountedPrice.inDouble >
-              //                             0 ||
-              //                         _pV.discountPercentage
-              //                                 .inDouble >=
-              //                             99))
-              //                 ? _pV.discountedPrice.toString()
-              //                 : _pV.actualPrice.toString())
-              //     : null,
-              addText: ((_prod.variationCount?.inDouble != null &&
-                          _prod.variationCount!.inDouble > 1) ||
-                      GlobalCVP.isServiceStore)
+              addText: (hasMultipleVariations ||
+                      GlobalCVP.isServiceStore ||
+                      _isMultiBatch)
                   ? LN.select
-                  : _isMultiBatch
-                      ? LN.select
-                      : LN.add,
+                  : LN.add,
               refresh: () {
                 placeOrderPro.notify;
               },

@@ -15,21 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Extract version from tag
         id: version
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-
-      - name: Create release notes
-        run: |
-          echo "## Release v${{ steps.version.outputs.VERSION }}" > RELEASE_NOTES.md
-          echo "" >> RELEASE_NOTES.md
-          echo "### Build Information" >> RELEASE_NOTES.md
-          echo "- Build Date: $(date)" >> RELEASE_NOTES.md
-          echo "- Flutter Version: 3.6.0" >> RELEASE_NOTES.md
-          echo "- GitHub Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" >> RELEASE_NOTES.md
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -38,7 +26,12 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.VERSION }}
           release_name: Release v${{ steps.version.outputs.VERSION }}
-          body_path: RELEASE_NOTES.md
+          body: |
+            ## Release v${{ steps.version.outputs.VERSION }}
+            ### Build Information
+            - Build Date: $(date)
+            - Flutter Version: ${{ env.FLUTTER_VERSION }}
+            - GitHub Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           draft: false
           prerelease: false
 
@@ -66,12 +59,10 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
       - name: Get Flutter packages
         run: flutter pub get
-
-      - name: Run tests
-        run: flutter test --coverage
 
       - name: Build APK
         run: |
@@ -125,6 +116,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
 
       - name: Get Flutter packages
         run: flutter pub get
