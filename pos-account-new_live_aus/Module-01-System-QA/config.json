@@ -1,6 +1,0 @@
-{
-  "project": "pos-account-new_live_aus",
-  "reportFormat": "html",
-  "outputDir": "reports",
-  "logFile": "logs/system.log"
-}

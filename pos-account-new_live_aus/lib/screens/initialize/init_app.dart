@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           decoration: TextDecoration.none,
         ),
         duration: Duration(seconds: 3),
-        child: AppEnviro.enviroment == Enviroment.UAT
+        child: AppEnvironment.environment == Environment.UAT
             ? Banner(
                 location: BannerLocation.topEnd,
                 message: 'UAT',

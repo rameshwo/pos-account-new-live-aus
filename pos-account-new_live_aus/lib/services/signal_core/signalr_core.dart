@@ -18,7 +18,7 @@ import 'model/heartbeat_res.dart';
 class SignalRCore {
   static String? _deviceId; // Your unique identifier
 
-  static final String _baseUrl = AppEnviro.socketUrl;
+  static final String _baseUrl = AppEnvironment.socketUrl;
 
   static Future<void> _setDeviceId() async {
     // _deviceId = "963f2b21-9dc1-4e8e-afca-08dcf826ffa3";

@@ -60,7 +60,7 @@ class Api {
 
 /* *************************** API POS *************************** */
 
-  static final String _baseUrlPos = AppEnviro.baseUrlPos;
+  static final String _baseUrlPos = AppEnvironment.baseUrlPos;
 
   // static final String _COUNTRY_LIST_4_BASEURL = _baseUrlPos + "common/listCountryWithBaseUrl";
   // static final String _CHECK_API_STATUS = _baseUrlPos + "home/checkapistatus";
@@ -462,7 +462,7 @@ class Api {
 
 /* *************************** API MENU *************************** */
 
-  static final String _baseUrlMenu = AppEnviro.baseUrlMenu;
+  static final String _baseUrlMenu = AppEnvironment.baseUrlMenu;
 
   //language
   static final String _CHANGE_LANG = "${_baseUrlMenu}store/changeLanguage";

@@ -107,11 +107,6 @@ dependencies:
   text_to_speech:
     path: cus_package/text_to_speech/
   scrollview_observer: ^1.25.1
-  # usb_serial:
-  #   git:
-  #     url: https://github.com/jymden/usbserial.git
-  #     ref: master
-    # path: cus_package/usb_serial/
   # http_log:
   #   path: cus_package/http_logger/
   ##

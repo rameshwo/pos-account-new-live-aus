@@ -222,7 +222,7 @@ class HomeNotifyBtn extends StatelessWidget {
           ];
     return StreamBuilder(
         stream: Stream.periodic(Duration(
-                seconds: AppEnviro.enviroment == Enviroment.UAT ? 600 : 10))
+                seconds: AppEnvironment.environment == Environment.UAT ? 600 : 10))
             .asyncMap((_) => oNPro.getData()),
         builder: (context, snap) {
           return Stack(

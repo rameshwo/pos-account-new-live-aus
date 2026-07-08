@@ -20,6 +20,7 @@ Future<void> main() async {
 
     runApp(const InitApp());
   }, CrashAnalytics.onError);
+}
 
 @pragma('vm:entry-point')
 void secondaryDisplayMain() {

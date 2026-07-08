@@ -13,6 +13,8 @@ jobs:
   create_release:
     name: Create Release
     runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.create_release.outputs.id }}
     
     steps:
       - name: Extract version from tag
@@ -20,12 +22,11 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: create_release
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.VERSION }}
-          release_name: Release v${{ steps.version.outputs.VERSION }}
+          name: Release v${{ steps.version.outputs.VERSION }}
           body: |
             ## Release v${{ steps.version.outputs.VERSION }}
             ### Build Information
@@ -34,6 +35,9 @@ jobs:
             - GitHub Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           draft: false
           prerelease: false
+          files: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/bundle/release/*.aab
 
   build_production_apk:
     name: Build Production APK
@@ -81,15 +85,12 @@ jobs:
             --dart-define=FLAVOR=prod \
             --build-number=${{ github.run_number }}
 
-      - name: Upload APK to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v3
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: build/app/outputs/flutter-apk/app-release.apk
-          asset_name: pos-account-v${{ steps.version.outputs.VERSION }}.apk
-          asset_content_type: application/vnd.android.package-archive
+          name: production-apk
+          path: build/app/outputs/flutter-apk/
+          retention-days: 30
 
       - name: Upload Bundle artifacts
         uses: actions/upload-artifact@v3

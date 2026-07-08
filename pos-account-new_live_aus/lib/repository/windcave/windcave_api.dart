@@ -2,7 +2,7 @@ part of 'windcave_handler.dart';
 
 class WindcaveApi {
   static bool get _isSandbox =>
-      AppEnviro.enviroment != Enviroment.PROD || kDebugMode;
+      AppEnvironment.environment != Environment.PROD || kDebugMode;
 
   static const String usernameStatic = "POSApt_REST_Dev";
   static const String keyStatic =

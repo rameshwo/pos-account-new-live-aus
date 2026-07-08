@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (widget.message?.isNotEmpty ?? false) return;
 
     // TODO: Do not comment for publishing in LIVE
-    _isSandbox = AppEnviro.enviroment != Enviroment.PROD || kDebugMode;
+    _isSandbox = AppEnvironment.environment != Environment.PROD || kDebugMode;
     HttpLog.startServer(context, isSandbox: _isSandbox);
     AppUpdate.checkUpdate(isSandBox: _isSandbox);
   }
