@@ -72,6 +72,8 @@ class NetworkImageSec extends StatelessWidget {
           imageUrl: image!,
           height: size.getW(height),
           width: size.getW(width),
+          memCacheWidth: width.toInt(),
+          memCacheHeight: height.toInt(),
           fit: boxFit,
           placeholder: (context, url) =>
               placeHolder ?? Image.asset('assets/png/placeholder.png'),

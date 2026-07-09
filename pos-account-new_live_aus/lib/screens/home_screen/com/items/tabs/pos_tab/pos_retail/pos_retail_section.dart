@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pos_account/config/utils/order_utils.dart';
+import 'package:pos_account/config/utils/utils.dart';
 import 'package:pos_account/config/responsive.dart';
 import 'package:pos_account/config/size_config.dart';
 import 'package:pos_account/constant/constant.dart';
@@ -95,7 +96,7 @@ class _POSRetailSectionState extends State<POSRetailSection> {
   @override
   Widget build(BuildContext context) {
     final size = Ssize(context);
-    final posPro = Provider.of<PosRetailPro>(context);
+    final posPro = Provider.of<PosRetailPro>(context, listen: false);
     final placeOrderPro = widget.placeOrderPro;
     return Processing(
       child: Column(
@@ -172,7 +173,10 @@ class _POSRetailSectionState extends State<POSRetailSection> {
                               : LN.search,
                       onChanged: (p0) {
                         if (p0 == null) return;
-                        paginate(1);
+                        Utils.handleSearch(
+                          callback: () async => paginate(1),
+                          millisecond: 500,
+                        );
                       },
                       suffixIcon: posPro.searchCltr.text.isEmpty
                           ? null
