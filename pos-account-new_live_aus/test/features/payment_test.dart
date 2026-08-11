@@ -161,6 +161,7 @@ void main() {
       // Assert: Verify the request body reflects the split payment
       expect(request, isNotNull);
       expect(request!.paymentType, "3"); // "3" for SplitByPerson
+      expect(request.noOfCustomerOnTable, "2");
       expect(request.paidAmount, "55.00");
       expect(request.totalPaymentAmount, "110.00");
     });

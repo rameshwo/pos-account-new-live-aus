@@ -461,7 +461,7 @@ class PaymentPro extends ChangeNotifier {
       } else {
         final _noOfPerson =
             double.tryParse(splitPerPersonCltr.text)?.floor() ?? 1;
-        _payReq.noOfCustomerOnTable = (_noOfPerson - 1).abs().toString();
+        _payReq.noOfCustomerOnTable = _noOfPerson.toString();
       }
     } else {
       _payReq.noOfCustomerOnTable = splitPerPersonCltr.text;

@@ -89,7 +89,7 @@ class StkPrintManager {
             pTime(e.ipAddress, "Captured")?.capture =
                 TaskTiming(startTime: _startTime, endTime: DateTime.now());
 
-            await print(
+          await print(
               data: _img,
               ip: b.ipAddress,
               port: b.port,
@@ -104,6 +104,18 @@ class StkPrintManager {
           curPrinter: _currentPrinter,
         );
       }
+    }
+
+    final _allPrinted = printerList.every((a) =>
+        a.printerStatus == PrinterStatus.Success ||
+        a.printerStatus == PrinterStatus.Failed ||
+        a.printerStatus == PrinterStatus.NoData);
+    final _allPrintSucess =
+        printerList.every((a) => a.printerStatus == PrinterStatus.Success ||
+            a.printerStatus == PrinterStatus.NoData);
+
+    if (_allPrinted && _allPrintSucess && runSuccessFun != null) {
+      await runSuccessFun!();
     }
   }
 
@@ -172,10 +184,6 @@ class StkPrintManager {
     _printCount++;
 
     load();
-
-    if ((_status ?? false) && runSuccessFun != null) {
-      await runSuccessFun!();
-    }
     _sendPrintStatus(
       curPrinter: _currentPrinter,
     );
@@ -231,10 +239,6 @@ class StkPrintManager {
     _printCount++;
 
     load();
-
-    if ((_status ?? false) && runSuccessFun != null) {
-      await runSuccessFun!();
-    }
     _sendPrintStatus(
       curPrinter: _currentPrinter,
     );
@@ -319,10 +323,6 @@ class StkPrintManager {
       if (_status) {
         _currentPrinter?.isOnline = true;
         _currentPrinter?.printerStatus = PrinterStatus.Success;
-
-        if (runSuccessFun != null) {
-          await runSuccessFun!();
-        }
       } else {
         // _currentPrinter?.isOnline = false;
         _currentPrinter?.printerStatus = PrinterStatus.Failed;

@@ -81,9 +81,9 @@ class SendToKitchenPrint {
           builder: (builder) => ConfirmDialog(
                 title: LN.printReceipt,
                 subTitle: LN.printRecptKit,
-                actionText: LN.print,
-                onDelete: () async {
-                  _stkPrintPOS(
+              actionText: LN.print,
+              onDelete: () async {
+                  await _stkPrintPOS(
                     order: order,
                     runSuccessFun: runSuccessFun,
                   );

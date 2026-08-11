@@ -226,11 +226,11 @@ class StkEventUtils {
     PlaceOrderRes? res,
     required String sessionId,
   }) async {
-    SendToKitchenPrint.stkPos(
+    await SendToKitchenPrint.stkPos(
       CUS_CTX,
       order: res,
       runSuccessFun: () async {
-        _confirmOrderStk(orderId: res?.orderId, sessionId: sessionId);
+        await _confirmOrderStk(orderId: res?.orderId, sessionId: sessionId);
       },
     );
   }
